@@ -11,7 +11,7 @@
                         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
 
                         mc:Ignorable="d"
-                        Title="CKK" Height="350" Width="525">
+                        Title="CKK" Height="270" Width="300">
 
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -32,7 +32,20 @@
                             <Label>:</Label>
                             <TextBox Name="seconds"></TextBox>
                         </StackPanel>
-                        <Label Name="DisplayTime">00:00:00</Label>
+                        <StackPanel Name="DisplayTime" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Name="hoursDisplay">00</Label>
+                            <Label>:</Label>
+                            <Label Name="minutesDisplay">00</Label>
+                            <Label>:</Label>
+                            <Label Name="secondsDisplay">00</Label>
+                            <Label>:</Label>
+                            <Label Name="milisecondsDisplay">00</Label>
+                        </StackPanel>
+                        <StackPanel Margin="10">
+                            <Label FontWeight="Bold">Actions :</Label>
+                            <RadioButton Name="ClosePc">Close pc</RadioButton>
+                            <RadioButton Name="RebootPc" >Reboot pc</RadioButton>
+                        </StackPanel>
                         <Button Name="Run">Go</Button>
                         <Button Name="Cancel">Cancel</Button>
                     </StackPanel>
