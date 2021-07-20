@@ -20,7 +20,7 @@ namespace ckk.ViewModels
     [Serializable]
     public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     {
-       
+
         [Reactive]
         public string DisplayTextGoButton { get; set; }
         [DataMember]
@@ -41,7 +41,7 @@ namespace ckk.ViewModels
 
         [Reactive]
         public TimeSpan StartTime { get; set; }
-        
+
         [Reactive]
         public TimeSpan RemainingTime { get; set; }
 
@@ -60,34 +60,38 @@ namespace ckk.ViewModels
             Hours = 0;
             Minutes = 0;
             Seconds = 0;
-            StartTime = new TimeSpan(0,0,0,0);
-            var defaultValue  = new TimeSpan(0,0,0,0);
+            StartTime = new TimeSpan(0, 0, 0, 0);
+            var defaultValue = new TimeSpan(0, 0, 0, 0);
             Cancle = new Subject<Unit>();
 
             DisplayTextGoButton = ClosePc ? "Close Pc" : "Reboot pc";
 
             ClosePc.WhenAnyValue(x => x)
-                .Subscribe(x => DisplayTextGoButton = x ? "Close Pc" : "Reboot pc");
-          
-            StartCountingCommand=ReactiveCommand.CreateFromObservable<Unit, TimeSpan>(
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(x =>
+                {
+                    DisplayTextGoButton = x ? "Close Pc" : "Reboot pc";
+                });
+
+            StartCountingCommand = ReactiveCommand.CreateFromObservable<Unit, TimeSpan>(
                 _ =>
                 {
-                    
-                    StartTime = new TimeSpan(0,Hours,Minutes,Seconds);
-                    
+
+                    StartTime = new TimeSpan(0, Hours, Minutes, Seconds);
+
                     return Observable.Interval(TimeSpan.FromMilliseconds(50))
                         .Select(x =>
                         {
-                            return StartTime - TimeSpan.FromMilliseconds(x*50);
+                            return StartTime - TimeSpan.FromMilliseconds(x * 50);
                         })
                         .TakeWhile(x => x >= TimeSpan.FromSeconds(0)).TakeUntil(CancelCommand);
                 });
             this.CancelCommand = ReactiveCommand.Create(
                 () =>
                 {
-                    StartTime = new TimeSpan(0,0,0,0);
-                    RemainingTime = new TimeSpan(0,0,0,0);
-                  
+                    StartTime = new TimeSpan(0, 0, 0, 0);
+                    RemainingTime = new TimeSpan(0, 0, 0, 0);
+
                 },
                 this.StartCountingCommand.IsExecuting);
             StartCountingCommand
@@ -95,23 +99,29 @@ namespace ckk.ViewModels
                 .Subscribe(span => RemainingTime = span);
 
             StartCountingCommand
-               .Where(z=> z == defaultValue)
+               .Where(z => z == defaultValue)
                .TakeUntil(CancelCommand)
                .Subscribe(x =>
                {
-                  
+
                    if (RebootPc)
                    {
+#if !DEBUG
+                       System.Diagnostics.Process.Start("shutdown.exe", "-r -t 0"); 
+#endif
                        MessageBox.Show("Reboot");
                    }
                    if (ClosePc)
                    {
+#if !DEBUG
+                       System.Diagnostics.Process.Start("shutdown.exe", "-s -t 0"); 
+#endif
                        MessageBox.Show("Close");
                    }
-                 
+
                });
         }
 
-        
+
     }
 }
