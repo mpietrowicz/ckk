@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,20 +17,25 @@ using ReactiveUI.Fody.Helpers;
 
 namespace ckk.ViewModels
 {
-    public class MainWindowViewModel : ReactiveObject
+    [Serializable]
+    public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     {
+       
+        [Reactive]
+        public string DisplayTextGoButton { get; set; }
+        [DataMember]
         [Reactive]
         public int Hours { get; set; }
-
+        [DataMember]
         [Reactive]
         public bool ClosePc { get; set; }
-
+        [DataMember]
         [Reactive]
         public bool RebootPc { get; set; }
-        
+        [DataMember]
         [Reactive]
         public int Minutes { get; set; }
-        
+        [DataMember]
         [Reactive]
         public int Seconds { get; set; }
 
@@ -53,10 +63,16 @@ namespace ckk.ViewModels
             StartTime = new TimeSpan(0,0,0,0);
             var defaultValue  = new TimeSpan(0,0,0,0);
             Cancle = new Subject<Unit>();
+
+            DisplayTextGoButton = ClosePc ? "Close Pc" : "Reboot pc";
+
+            ClosePc.WhenAnyValue(x => x)
+                .Subscribe(x => DisplayTextGoButton = x ? "Close Pc" : "Reboot pc");
           
             StartCountingCommand=ReactiveCommand.CreateFromObservable<Unit, TimeSpan>(
                 _ =>
                 {
+                    
                     StartTime = new TimeSpan(0,Hours,Minutes,Seconds);
                     
                     return Observable.Interval(TimeSpan.FromMilliseconds(50))
@@ -71,6 +87,7 @@ namespace ckk.ViewModels
                 {
                     StartTime = new TimeSpan(0,0,0,0);
                     RemainingTime = new TimeSpan(0,0,0,0);
+                  
                 },
                 this.StartCountingCommand.IsExecuting);
             StartCountingCommand
@@ -82,6 +99,7 @@ namespace ckk.ViewModels
                .TakeUntil(CancelCommand)
                .Subscribe(x =>
                {
+                  
                    if (RebootPc)
                    {
                        MessageBox.Show("Reboot");
@@ -94,6 +112,6 @@ namespace ckk.ViewModels
                });
         }
 
-       
+        
     }
 }

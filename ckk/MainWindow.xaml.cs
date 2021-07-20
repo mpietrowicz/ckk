@@ -14,7 +14,7 @@ namespace ckk
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new MainWindowViewModel();
+            ViewModel = StateManager<MainWindowViewModel>.Instance.Get(new MainWindowViewModel());
             this.WhenActivated(disposableRegistration =>
             {
                 this.Bind(ViewModel, model => model.ClosePc, window => window.ClosePc.IsChecked)
@@ -41,6 +41,8 @@ namespace ckk
                 this.Bind(ViewModel, model => model.RemainingTime.Milliseconds, window => window.milisecondsDisplay.Content )
                     .DisposeWith(disposableRegistration);
                 this.BindCommand(ViewModel, model => model.CancelCommand, window => window.Cancel)
+                    .DisposeWith(disposableRegistration);
+                this.Bind(ViewModel, model => model.DisplayTextGoButton, window => window.Run.Content)
                     .DisposeWith(disposableRegistration);
             });
         }
