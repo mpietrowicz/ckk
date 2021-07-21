@@ -64,14 +64,9 @@ namespace ckk.ViewModels
             var defaultValue = new TimeSpan(0, 0, 0, 0);
             Cancle = new Subject<Unit>();
 
-            DisplayTextGoButton = ClosePc ? "Close Pc" : "Reboot pc";
+            DisplayTextGoButton = "OK";
 
-            ClosePc.WhenAnyValue(x => x)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(x =>
-                {
-                    DisplayTextGoButton = x ? "Close Pc" : "Reboot pc";
-                });
+           
 
             StartCountingCommand = ReactiveCommand.CreateFromObservable<Unit, TimeSpan>(
                 _ =>
