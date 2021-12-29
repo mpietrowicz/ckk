@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK", "CKK\CKK.csproj", "{58F618D9-DA7D-4463-943E-6F23BA9E8BFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.ViewModels", "CKK.ViewModels\CKK.ViewModels.csproj", "{4C55F4CF-D08C-4395-AE74-A0075924550B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK", "CKK\CKK.csproj", "{22F74651-902F-4D75-A7B1-BDEF4D2FB672}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Ribbon", "..\AvaloniaRibbon\Avalonia.Ribbon\Avalonia.Ribbon.csproj", "{77229FE1-64D7-4FC2-8F94-9F5A5200298A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Externall", "Externall", "{D2069101-FFD5-4F8F-ACA8-63032D2D9161}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6F4F9C7F-082D-4A91-98F9-7308CF2E3364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.WebService", "CKK.WebService\CKK.WebService.csproj", "{715C3459-F2B2-4A47-A141-01A689853FCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +21,28 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{58F618D9-DA7D-4463-943E-6F23BA9E8BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58F618D9-DA7D-4463-943E-6F23BA9E8BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58F618D9-DA7D-4463-943E-6F23BA9E8BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58F618D9-DA7D-4463-943E-6F23BA9E8BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C55F4CF-D08C-4395-AE74-A0075924550B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C55F4CF-D08C-4395-AE74-A0075924550B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C55F4CF-D08C-4395-AE74-A0075924550B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C55F4CF-D08C-4395-AE74-A0075924550B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F74651-902F-4D75-A7B1-BDEF4D2FB672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F74651-902F-4D75-A7B1-BDEF4D2FB672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F74651-902F-4D75-A7B1-BDEF4D2FB672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F74651-902F-4D75-A7B1-BDEF4D2FB672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77229FE1-64D7-4FC2-8F94-9F5A5200298A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77229FE1-64D7-4FC2-8F94-9F5A5200298A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77229FE1-64D7-4FC2-8F94-9F5A5200298A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77229FE1-64D7-4FC2-8F94-9F5A5200298A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{715C3459-F2B2-4A47-A141-01A689853FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715C3459-F2B2-4A47-A141-01A689853FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715C3459-F2B2-4A47-A141-01A689853FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715C3459-F2B2-4A47-A141-01A689853FCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77229FE1-64D7-4FC2-8F94-9F5A5200298A} = {D2069101-FFD5-4F8F-ACA8-63032D2D9161}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D94B9809-454E-4A73-B602-61349B720D46}
