@@ -6,7 +6,7 @@ using CKK.Views;
 
 namespace CKK
 {
-    public class App : Application
+    public partial class App : Application
     {
         public override void Initialize()
         {

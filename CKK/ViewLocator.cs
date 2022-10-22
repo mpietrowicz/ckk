@@ -1,8 +1,7 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using CKK.ViewModels;
 using ReactiveUI;
-using System;
 
 namespace CKK
 {
@@ -15,12 +14,10 @@ namespace CKK
 
             if (type != null)
             {
-                return (Control)Activator.CreateInstance(type)!;
+                return (Control) Activator.CreateInstance(type)!;
             }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
+
+            return new TextBlock {Text = "Not Found: " + name};
         }
 
         public bool Match(object data)
