@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:CKK.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="300"
+        Height="500"
         x:Class="CKK.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CKK">

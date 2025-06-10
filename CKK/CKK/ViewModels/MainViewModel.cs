@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace CKK.ViewModels
@@ -22,18 +24,33 @@ namespace CKK.ViewModels
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(StartCommand))]
+        [NotifyCanExecuteChangedFor(nameof(StopCommand))]
         private bool _isRunning = false;
+        
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(StartCommand))]
+        [NotifyCanExecuteChangedFor(nameof(StopCommand))]
+        private bool _isStoped = false;
+        
+        
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(StartCommand))]
+        private string? _selectedAction = "Shutdown";
 
-        private DispatcherTimer _timer = new DispatcherTimer()
+        public ObservableCollection<string> AvailableActions { get; set; } = new ObservableCollection<string>()
         {
-            Interval = TimeSpan.FromSeconds(1),
-            IsEnabled = false,
-
+            "Shutdown",
+            "Restart",
+            "Sleep",
+            "Hibernate"
         };
+
+
+        private DispatcherTimer? _timer = null;
 
         public MainViewModel()
         {
-            _timer.Tick += OnTimerTick;
+        
         }
 
         private void OnTimerTick(object? sender, EventArgs e)
@@ -64,12 +81,46 @@ namespace CKK.ViewModels
                 return false;
 
         }
+        
+      
+        
+        private bool CanStop()
+        {
+            if (IsRunning)
+            {
+                return !CanStart();
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        
+
+        [RelayCommand(CanExecute = nameof(CanStop))]
+        private void Stop()
+        {
+            IsStoped = true;
+            IsRunning = false;
+        }
+        
 
         [RelayCommand(CanExecute = nameof(CanStart))]
         private async Task Start()
         {
+            _timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1),
+                IsEnabled = false,
+
+            };
+            _timer.Tick += OnTimerTick;
+            IsStoped = false;
             IsRunning = true;
             _timer.Start();
+            
+            
             var initTime = new TimeSpan(Hours ?? 0, Minutes ?? 0, Seconds ?? 0);
             do
             {
@@ -82,7 +133,7 @@ namespace CKK.ViewModels
             Seconds = initTime.Seconds;
             _timer.IsEnabled = false;
             _timer.Stop();
-
+            _timer = null;
             await Task.CompletedTask;
         }
     }
