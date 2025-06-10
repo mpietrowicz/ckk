@@ -5,6 +5,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Threading.Tasks;
+using Splat;
+using CKK.Abstraction;
 
 namespace CKK.ViewModels
 {
@@ -44,6 +46,10 @@ namespace CKK.ViewModels
             "Sleep",
             "Hibernate"
         };
+
+        private IPcService? _pcService;
+
+        private IPcService PcService => _pcService ??= Locator.Current.GetService<IPcService>() ?? throw new InvalidOperationException("PC Service is not registered.");
 
 
         private DispatcherTimer? _timer = null;
@@ -134,6 +140,24 @@ namespace CKK.ViewModels
             _timer.IsEnabled = false;
             _timer.Stop();
             _timer = null;
+
+            if(SelectedAction == "Shutdown")
+            {
+                await PcService.ShutdownPc();
+            }
+            else if (SelectedAction == "Restart")
+            {
+                await PcService.RestartPc();
+            }
+            else if (SelectedAction == "Sleep")
+            {
+                await PcService.SleepPc();
+            }
+            else if (SelectedAction == "Hibernate")
+            {
+                await PcService.HibernatePc();
+            }
+
             await Task.CompletedTask;
         }
     }

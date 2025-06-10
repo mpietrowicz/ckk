@@ -3,8 +3,12 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using CKK.Abstraction;
+using CKK.Services;
 using CKK.ViewModels;
 using CKK.Views;
+using Splat;
+using System;
 
 namespace CKK
 {
@@ -13,6 +17,19 @@ namespace CKK
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+            ConfigureDataValidation();
+            ConfigureSplatIoc();
+        }
+
+        private void ConfigureSplatIoc()
+        {
+           Locator.CurrentMutable.RegisterLazySingleton(() => new PcService(), typeof(IPcService));
+        }
+
+        private static void ConfigureDataValidation()
+        {
+            // Remove the default Avalonia data validation plugin to avoid duplicate validations
+            BindingPlugins.DataValidators.RemoveAt(0);
         }
 
         public override void OnFrameworkInitializationCompleted()

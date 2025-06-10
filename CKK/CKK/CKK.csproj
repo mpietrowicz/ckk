@@ -17,5 +17,11 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Splat" Version="15.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CKK.Abstraction\CKK.Abstraction.csproj" />
+    <ProjectReference Include="..\..\CKK.Services\CKK.Services.csproj" />
   </ItemGroup>
 </Project>
