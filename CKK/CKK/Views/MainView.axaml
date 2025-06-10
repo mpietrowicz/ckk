@@ -11,7 +11,7 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*,*">
+	<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,*,*">
 		<Grid.Styles>
 			<Style Selector="TextBox">
 				<Setter Property="TextAlignment" Value="Center"/>
@@ -20,10 +20,17 @@
 				<Setter Property="BorderThickness" Value="1.5" />
 			</Style>
 		</Grid.Styles>
-		<TextBox Grid.Column="0" Text="{Binding Hours, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
-		<TextBox Grid.Column="1" Text="{Binding Minutes, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
-		<TextBox Grid.Column="2" Text="{Binding Seconds, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
-		<Button Grid.Row="1" Grid.ColumnSpan="3" Content="Start" Command="{Binding StartCommand}" 
+		<TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Hours, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
+		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Minutes, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
+		<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Seconds, Mode=TwoWay}" IsEnabled="{Binding !IsRunning}" Margin="10"/>
+		<ComboBox Margin="10" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+		          SelectedItem="{Binding SelectedAction}"
+		          ItemsSource="{Binding AvailableActions}"
+		          IsEnabled="{Binding !IsRunning}">
+		</ComboBox>
+		<Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Content="Start" Command="{Binding StartCommand}" 
 				HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="10"/>
+		<Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Content="Stop" Command="{Binding StopCommand}" 
+		        HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="10"/>
 	</Grid>
 </UserControl>
