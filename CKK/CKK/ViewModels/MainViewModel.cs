@@ -28,13 +28,13 @@ namespace CKK.ViewModels
         [NotifyCanExecuteChangedFor(nameof(StartCommand))]
         [NotifyCanExecuteChangedFor(nameof(StopCommand))]
         private bool _isRunning = false;
-        
+
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(StartCommand))]
         [NotifyCanExecuteChangedFor(nameof(StopCommand))]
         private bool _isStoped = false;
-        
-        
+
+
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(StartCommand))]
         private string? _selectedAction = "Shutdown";
@@ -56,7 +56,7 @@ namespace CKK.ViewModels
 
         public MainViewModel()
         {
-        
+
         }
 
         private void OnTimerTick(object? sender, EventArgs e)
@@ -87,9 +87,9 @@ namespace CKK.ViewModels
                 return false;
 
         }
-        
-      
-        
+
+
+
         private bool CanStop()
         {
             if (IsRunning)
@@ -102,7 +102,7 @@ namespace CKK.ViewModels
             }
 
         }
-        
+
 
         [RelayCommand(CanExecute = nameof(CanStop))]
         private void Stop()
@@ -110,7 +110,7 @@ namespace CKK.ViewModels
             IsStoped = true;
             IsRunning = false;
         }
-        
+
 
         [RelayCommand(CanExecute = nameof(CanStart))]
         private async Task Start()
@@ -125,8 +125,8 @@ namespace CKK.ViewModels
             IsStoped = false;
             IsRunning = true;
             _timer.Start();
-            
-            
+
+
             var initTime = new TimeSpan(Hours ?? 0, Minutes ?? 0, Seconds ?? 0);
             do
             {
@@ -141,24 +141,26 @@ namespace CKK.ViewModels
             _timer.Stop();
             _timer = null;
 
-            if(SelectedAction == "Shutdown")
+            if (IsStoped)
             {
-                await PcService.ShutdownPc();
+                IsStoped = false;
+                return;
             }
-            else if (SelectedAction == "Restart")
+            switch (SelectedAction)
             {
-                await PcService.RestartPc();
+                case "Shutdown":
+                    await PcService.ShutdownPc();
+                    break;
+                case "Restart":
+                    await PcService.RestartPc();
+                    break;
+                case "Sleep":
+                    await PcService.SleepPc();
+                    break;
+                case "Hibernate":
+                    await PcService.HibernatePc();
+                    break;
             }
-            else if (SelectedAction == "Sleep")
-            {
-                await PcService.SleepPc();
-            }
-            else if (SelectedAction == "Hibernate")
-            {
-                await PcService.HibernatePc();
-            }
-
-            await Task.CompletedTask;
         }
     }
 }
