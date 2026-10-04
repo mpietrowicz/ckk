@@ -17,7 +17,6 @@ namespace CKK
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
-            ConfigureDataValidation();
             ConfigureSplatIoc();
         }
 
@@ -26,19 +25,12 @@ namespace CKK
            Locator.CurrentMutable.RegisterLazySingleton(() => new PcService(), typeof(IPcService));
         }
 
-        private static void ConfigureDataValidation()
-        {
-            // Remove the default Avalonia data validation plugin to avoid duplicate validations
-            BindingPlugins.DataValidators.RemoveAt(0);
-        }
+
 
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                // Line below is needed to remove Avalonia data validation.
-                // Without this line you will get duplicate validations from both Avalonia and CT
-                BindingPlugins.DataValidators.RemoveAt(0);
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = new MainViewModel()
